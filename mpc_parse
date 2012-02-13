@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-mpdst=( ${(f)"$(mpc status -f '%artist% - %album% - %title%')"} )
+mpdst=( ${(f)"$(mpc -h ${1:-localhost} status -f '%artist% - %album% - %title%')"} )
 setopt rematchpcre
 [[ $mpdst[1] =~ '(.+) - (.+) - (.+)' ]] || return 1
 ARTIST=$match[1]

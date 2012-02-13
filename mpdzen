@@ -16,6 +16,7 @@ CL_INFO=''
 # get some params
 self=( $0(:A:h) )
 [[ -e $self/mpc_parse ]] || { echo 'Missing mpc_parse!'; return 1 }
+# note mpc_parse uses $1 as hostname
 . ${self}/mpc_parse
 
 AW=$(textwidth "$FN_ARTIST" "$ARTIST")
