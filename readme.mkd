@@ -12,6 +12,9 @@ debian package in particular will not suffice!
 The dialogue will also include a cover art image, if there is one in xpm format
 in ./covers/$ARTIST/$ALBUM.xpm or ~/.cache/covers/$ARTIST/$ALBUM.xmp
 
+Have a screenshot:
+![Screenshot](https://github.com/Valodim/mpdzen/raw/master/shot.png) 
+
  ./mpdzen_loop
 Very small utility that listens for mpd events using mpc idleloop, and when
 a player event happens, calls mpdzen. Basically, this will show the mpdzen
