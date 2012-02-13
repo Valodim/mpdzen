@@ -43,6 +43,7 @@ setopt extended_glob
 img=( covers/(#ia2)${~ARTIST}/${~${(q)ALBUM}:gs/\//_}.xpm(N) )
 [[ -z $img ]] && img=( ~/.cache/covers/(#ia2)${~ARTIST}/${~${ALBUM}:gs/\//_}.xpm(N) )
 if [[ -n $img ]]; then
+    img=${img:gs/)/\\)}
     img="^i($img)"
 else
     img="^fg(#324132)^r(64x64)^pa(36;28)^fg(#000000)?"
