@@ -14,7 +14,7 @@ FN_INFO='-*-*-*-*-*-*-8-*-*-*-*-*-*-*'
 CL_INFO=''
 
 # get some params
-source mpdzen_parse
+source mpc_parse
 
 AW=$(textwidth "$FN_ARTIST" "$ARTIST")
 while [[ $AW -gt 310 ]]; do
