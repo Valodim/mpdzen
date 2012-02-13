@@ -1,12 +1,17 @@
+mpdzen
+======
+
 This is just me flexing my zsh muscles a little, creating some things
 marginally useful in the process.
 
- ./mpc_parse
+./mpc_parse
+-----------
 
 Simple parser for mpc status. Not useful on its own, this can be sourced
 from other scripts to get that data.
 
- ./mpdzen
+./mpdzen
+---------
 
 This script fetches data using mpc_parse and displays it in a nice dialogue
 using dzen2. Note this requires a development version of dzen2, the one from
@@ -18,13 +23,15 @@ Have a screenshot:
 
 ![Screenshot](https://github.com/Valodim/mpdzen/raw/master/shot.png) 
 
- ./mpdzen_loop
+./mpdzen_loop
+-------------
 
 Very small utility that listens for mpd events using mpc idleloop, and when
 a player event happens, calls mpdzen. Basically, this will show the mpdzen
 notification everytime a new song is played.
 
- ./cover_fetcher ARTIST ALBUM
+./cover_fetcher ARTIST ALBUM
+----------------------------
 
 This script will attempt to download a cover for $ALBUM by $ARTIST using curl,
 and convert it to a 64x64 xpm image using ImageMagick's convert. For my nicely
