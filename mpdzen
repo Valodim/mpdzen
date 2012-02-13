@@ -40,8 +40,8 @@ fixw=90
 
 # any cover here? match case-insensitively and allow two errors in the name.
 setopt extended_glob
-img=( covers/(#ia2)${~ARTIST}/${~ALBUM}.xpm(N) )
-[[ -z $img ]] && img=( ~/.cache/covers/(#ia2)${~ARTIST}/${~ALBUM}.xpm(N) )
+img=( covers/(#ia2)${~ARTIST}/${~${(q)ALBUM}:gs/\//_}.xpm(N) )
+[[ -z $img ]] && img=( ~/.cache/covers/(#ia2)${~ARTIST}/${~${ALBUM}:gs/\//_}.xpm(N) )
 if [[ -n $img ]]; then
     img="^i($img)"
 else

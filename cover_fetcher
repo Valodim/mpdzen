@@ -29,6 +29,9 @@ setopt rematchpcre
 
 echo "Found data url: $match"
 
+1=${1:gs/\//_}
+2=${2:gs/\//_}
+
 # make sure this dir exists..
 if [[ ! -d $1 ]]; then
     echo "Creating $1.."
