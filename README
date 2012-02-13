@@ -1,0 +1,31 @@
+This is just me flexing my zsh muscles a little, creating some things
+marginally useful in the process.
+
+ ./mpc_parse
+Simple parser for mpc status. Not useful on its own, this can be sourced
+from other scripts to get that data.
+
+ ./mpdzen
+This script fetches data using mpc_parse and displays it in a nice dialogue
+using dzen2. Note this requires a development version of dzen2, the one from
+debian package in particular will not suffice!
+The dialogue will also include a cover art image, if there is one in xpm format
+in ./covers/$ARTIST/$ALBUM.xpm or ~/.cache/covers/$ARTIST/$ALBUM.xmp
+
+ ./mpdzen_loop
+Very small utility that listens for mpd events using mpc idleloop, and when
+a player event happens, calls mpdzen. Basically, this will show the mpdzen
+notification everytime a new song is played.
+
+ ./cover_fetcher ARTIST ALBUM
+This script will attempt to download a cover for $ALBUM by $ARTIST using curl,
+and convert it to a 64x64 xpm image using ImageMagick's convert. For my nicely
+sorted collection of data in its ARTIST/ALBUM/TITLES hierarchy, this worked
+very well (zsh, obviously):
+
+p=/path/to/mp3/
+for i in ${~p}/*/*(/); do
+    i=${i#$p};
+    ./cover_fetcher ${i%/*} ${i#*/}; 
+    echo; 
+done
