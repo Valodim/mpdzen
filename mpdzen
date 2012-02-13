@@ -60,7 +60,7 @@ if (( $AW > 220 || $SW > 220)); then
     "^pa(80;49)^fg(#324132)^r(200x6)^pa(80;49)^fg($CL_TIME)^r($(($PERCENT*2))x6)" \
     "^pa(300;48)^fg($CL_TIME)^fn($FN_TIME)$TIME_NOW / $TIME_TOTAL" \
     "^pa(365;54)^fg($CL_INFO)^fn($FN_INFO)$PL_NOW / $PL_TOTAL" \
-    "^pa(80;58)^fg($CL_INFO)^fn($FN_INFO)$mpdst[3]" | dzen2 -p 3 -h 72 -x $[ 1275-$W ] -y 20 -w $W -ta l
+    "^pa(80;58)^fg($CL_INFO)^fn($FN_INFO)$STATUS" | dzen2 -p 3 -h 72 -x $[ 1275-$W ] -y 20 -w $W -ta l
 else
     echo "^ib(1)" \
     "^pa(8;4)$img" \
@@ -69,7 +69,7 @@ else
     "^pa(80;28)^fg($CL_SONG)^fn($FN_SONG)$SONG" \
     "^pa(80;49)^fg(#324132)^r(200x6)^pa(80;49)^fg($CL_TIME)^r($(($PERCENT*2))x6)" \
     "^pa(300;48)^fg($CL_TIME)^fn($FN_TIME)$TIME_NOW / $TIME_TOTAL" \
-    "^pa(80;58)^fg($CL_INFO)^fn($FN_INFO)$mpdst[3]" | dzen2 -p 3 -h 72 -x $[ 1275-$W ] -y 20 -w $W -ta l
+    "^pa(80;58)^fg($CL_INFO)^fn($FN_INFO)$STATUS" | dzen2 -p 3 -h 72 -x $[ 1275-$W ] -y 20 -w $W -ta l
 fi
 
 # couldn't fit this in the layout..
