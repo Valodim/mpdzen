@@ -14,10 +14,14 @@ pars=( "$@" )
 [[ -z $pars[-p] ]] && pars[-p]=3
 [[ -z $pars[-y] ]] && pars[-y]=0
 
+# make sure this dir exists
+[[ ! -d /tmp/dzenlines ]] && mkdir /tmp/dzenlines
+
 # this is not threadsafe, but w/e
-[[ -e /tmp/dzenlines ]] && l=( ${(f)"$(</tmp/dzenlines)"} )
+fname=/tmp/dzenlines/y_$pars[-y]_x_${${pars[-x]}:-0}
+[[ -e $fname ]] && l=( ${(f)"$(<$fname)"} )
 [[ -n $l ]] && (( $l[1] > $EPOCHSECONDS )) && offset=$[ $l[2] +4 ]
-echo "$(($EPOCHSECONDS+$pars[-p]))\n$(($offset+$pars[-h]))" > /tmp/dzenlines
+echo "$(($EPOCHSECONDS+$pars[-p]))\n$(($offset+$pars[-h]))" > $fname
 
 # adjust y parameter
 if (( $pars[-y] > 0 )); then
@@ -26,4 +30,5 @@ else
     pars[-y]=$[ ${pars[-y]} - $offset ]
 fi
 
+# forward modified parameters to dzen2
 dzen2 ${(kv)pars}
