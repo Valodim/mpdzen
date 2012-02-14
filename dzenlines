@@ -20,6 +20,10 @@ pars=( "$@" )
 echo "$(($EPOCHSECONDS+$pars[-p]))\n$(($offset+$pars[-h]))" > /tmp/dzenlines
 
 # adjust y parameter
-pars[-y]=$[ ${pars[-y]} + $offset ]
+if (( $pars[-y] > 0 )); then
+    pars[-y]=$[ ${pars[-y]} + $offset ]
+else
+    pars[-y]=$[ ${pars[-y]} - $offset ]
+fi
 
 dzen2 ${(kv)pars}
