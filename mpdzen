@@ -21,6 +21,9 @@ self=( $0(:A:h) )
 # note mpc_parse uses $1 as hostname
 . ${self}/mpc_parse
 
+# make sure the parsing succeeded - we have no proper data otherwise
+[[ $? != 0 ]] && return 1
+
 AW=$(textwidth "$FN_ARTIST" "$ARTIST")
 while [[ $AW -gt 310 ]]; do
     ARTIST=$ARTIST[1,-4]'..'
