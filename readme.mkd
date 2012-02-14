@@ -44,3 +44,20 @@ very well (zsh, obviously):
         ./cover_fetcher ${i%/*} ${i#*/}; 
         echo; 
     done
+
+./dzenlines
+-----------
+
+This script wraps dzen2, and will adjust the __-y__ parameter for subsequent
+calls depending on the __-p__, __-y__ and __-h__ parameters, so that they don't
+overlap. For example, if you call three times `dzenlines -y 50 -h 30 -p 3`, it
+will move the __-y__ further down by *34* pixels, which is the __-h__ parameter
+plus a bit of padding. Once the timeout given by __-p__ is reached, the offset
+is reset to zero.
+
+Be wary of non key-value arguments for dzen (ie, __-m__ and __-u__), they may
+confuse the script. Just put them on the tail end of the arguments and it
+should be fine.
+
+The script keeps track of state for each pair of __-x__,__-y__ parameters, and
+will move up or down the screen depending on the sign of __-y__.
