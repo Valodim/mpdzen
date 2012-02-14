@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+RESPATH=( $0(:A:h) )
+
 FN_ARTIST='-*-*-*-*-*-*-18-*-*-*-*-*-*-*'
 CL_ARTIST='#5A863A'
 FN_SONG='-*-*-*-*-*-*-14-*-*-*-*-*-*-*'
@@ -25,7 +27,7 @@ self=( $0(:A:h) )
 [[ $? != 0 ]] && return 1
 
 AW=$(textwidth "$FN_ARTIST" "$ARTIST")
-while [[ $AW -gt 310 ]]; do
+while [[ $AW -gt 292 ]]; do
     ARTIST=$ARTIST[1,-4]'..'
     AW=$(textwidth "$FN_ARTIST" "$ARTIST")
 done
@@ -54,13 +56,19 @@ else
     img="^fg(#324132)^r(64x64)^pa(36;28)^fg(#000000)?"
 fi
 
+case $MPDSTATE in
+    playing) STATE="^fg(#ffffff)^i($RESPATH/play.xbm) " ;;
+     paused) STATE="^fg(#ffffff)^i($RESPATH/pause.xbm) " ;;
+esac
+
 # long interpret or song title? switch layout then.
 if (( $AW > 220 || $SW > 220)); then
     (( $W < 395 )) && W=395
     # this one moves 
     echo "^ib(1)" \
     "^pa(8;4)$img" \
-    "^pa(80;4)^fg($CL_ARTIST)^fn($FN_ARTIST)$ARTIST" \
+    "^pa(80;8)$STATE" \
+    "^pa(98;4)^fg($CL_ARTIST)^fn($FN_ARTIST)$ARTIST" \
     "^pa(80;28)^fg($CL_SONG)^fn($FN_SONG)$SONG" \
     "^pa(80;49)^fg(#324132)^r(200x6)^pa(80;49)^fg($CL_TIME)^r($(($PERCENT*2))x6)" \
     "^pa(300;48)^fg($CL_TIME)^fn($FN_TIME)$TIME_NOW / $TIME_TOTAL" \
@@ -69,7 +77,8 @@ if (( $AW > 220 || $SW > 220)); then
 else
     echo "^ib(1)" \
     "^pa(8;4)$img" \
-    "^pa(80;4)^fg($CL_ARTIST)^fn($FN_ARTIST)$ARTIST" \
+    "^pa(80;8)$STATE" \
+    "^pa(98;4)^fg($CL_ARTIST)^fn($FN_ARTIST)$ARTIST" \
     "^pa($(($W-30));14)^fg($CL_INFO)^fn($FN_INFO)$PL_NOW / $PL_TOTAL" \
     "^pa(80;28)^fg($CL_SONG)^fn($FN_SONG)$SONG" \
     "^pa(80;49)^fg(#324132)^r(200x6)^pa(80;49)^fg($CL_TIME)^r($(($PERCENT*2))x6)" \
