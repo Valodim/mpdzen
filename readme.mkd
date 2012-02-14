@@ -61,3 +61,10 @@ should be fine.
 
 The script keeps track of state for each pair of __-x__,__-y__ parameters, and
 will move up or down the screen depending on the sign of __-y__.
+
+patches
+-------
+
+This is a quilt patches dir that can be applied to dzen2, to allow escaping of
+closing parantheses for ^i() syntax. This is necessary if album names contain
+any ), which will blow it up otherwise.
