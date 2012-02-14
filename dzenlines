@@ -16,7 +16,7 @@ pars=( "$@" )
 
 # this is not threadsafe, but w/e
 [[ -e /tmp/dzenlines ]] && l=( ${(f)"$(</tmp/dzenlines)"} )
-[[ -n $l ]] && (( $l[1] > $EPOCHSECONDS )) && offset=$l[2]
+[[ -n $l ]] && (( $l[1] > $EPOCHSECONDS )) && offset=$[ $l[2] +4 ]
 echo "$(($EPOCHSECONDS+$pars[-p]))\n$(($offset+$pars[-h]))" > /tmp/dzenlines
 
 # adjust y parameter
