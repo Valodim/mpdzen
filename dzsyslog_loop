@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+typeset -a t
+while read s; do
+    echo $s
+    t=( ${(s:	:)s} )
+    ./dzsyslog $t[1] $t[2] $t[3] $t[4] $t[5] $t[6,$] &!
+done;

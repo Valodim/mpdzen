@@ -1,0 +1,81 @@
+#!/bin/zsh
+
+[[ -n $commands[dzenlines] ]] && dzen=$commands[dzenlines] || dzen=dzen2
+
+FN_TIME='-*-*-*-*-*-*-10-*-*-*-*-*-*-*'
+FN_FACILITY='-*-*-*-*-*-*-10-*-*-*-*-*-*-*'
+FN_SEVERITY='-*-*-*-*-*-*-10-*-*-*-*-*-*-*'
+FN_FROMHOST='-*-*-*-*-*-*-10-*-*-*-*-*-*-*'
+FN_PROGNAME='-*-*-*-*-*-*-14-*-*-*-*-*-*-*'
+FN_MSG='-*-*-*-*-*-*-12-*-*-*-*-*-*-*'
+
+CL_TIME='#425142'
+CL_FACILITY='#424251'
+CL_FROMHOST='#5a863a'
+CL_PROGNAME='#8aa66a'
+CL_MSG='#7d7a7d'
+
+# msg format we parse
+# $template dzen,"%timereported%	%syslogfacility-text%	%syslogseverity-text%	%FROMHOST%	%programname%	%msg%\n"
+
+typeset -A level
+level[debug]='^fg(#1BE0CC)D'
+level[info]='^fg(#E0DD1B)I'
+level[notice]='^fg(#3BA861)N'
+level[warning]='^fg(#E0AB1B)W'
+level[err]='^fg(#E0671B)E'
+level[crit]='^fg(#DD0000)C'
+level[alert]='^fg(#EE0000)A'
+level[emerg]='^fg(#FF0000)M'
+
+typeset -A leveltime
+leveltime[debug]=2
+leveltime[info]=4
+leveltime[notice]=5
+leveltime[warning]=6
+leveltime[err]=10
+leveltime[crit]=120
+leveltime[alert]=240
+leveltime[emerg]=300
+
+typeset -A facilities
+facilities[auth]=A
+facilities[authpriv]=AP
+facilities[cron]=C
+facilities[daemon]=D
+facilities[ftp]=F
+facilities[kern]=K
+facilities[local0]=L0
+facilities[local1]=L1
+facilities[local2]=L2
+facilities[local3]=L3
+facilities[local4]=L4
+facilities[local5]=L5
+facilities[local6]=L6
+facilities[lpr]=L
+facilities[mail]=M
+facilities[news]=N
+facilities[syslog]=S
+facilities[user]=U
+facilities[uucp]=U
+
+# debug stuff
+timestamp=$1
+facility=$facilities[$2]
+severity=$level[$3]
+fromhost=$4
+progname=$5
+msg=$6
+
+# echo $t
+
+WT=$(textwidth "$FN_TIME" "$timestamp")
+WH=$(textwidth "$FN_FROMHOST" "$fromhost")
+
+echo "^ib(1)" \
+    "^pa($(( 500-$WT ));6)^fg($CL_TIME)^fn($FN_TIME)$timestamp"\
+    "^pa(12;7)^fn($FN_SEVERITY)$severity"\
+    "^pa(30;7)^fg($CL_FACILITY)^fn($FN_FACILITY)$facility"\
+    "^pa(55;7)^fg($CL_FROMHOST)^fn($FN_FROMHOST)$fromhost" \
+    "^pa($((55+$WH));4)^fg($CL_PROGNAME)^fn($FN_PROGNAME)$progname" \
+    "^pa(6;22)^fg($CL_MSG)^fn($FN_MSG)$msg" | $dzen -p $leveltime[$3] -x -505 -h 40 -y 20 -w 500 -ta l
