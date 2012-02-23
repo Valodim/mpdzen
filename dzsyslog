@@ -98,8 +98,8 @@ done
 
 echo "^ib(1)" \
     "^pa($(( 500-$WT ));6)^fg($CL_TIME)^fn($FN_TIME)$timestamp"\
-    "^pa(12;7)^fn($FN_SEVERITY)$severity"\
-    "^pa(30;7)^fg($CL_FACILITY)^fn($FN_FACILITY)$facility"\
+    "^pa(12;7)^fg($CL_FACILITY)^fn($FN_FACILITY)$facility"\
+    "^pa(30;7)^fn($FN_SEVERITY)$severity"\
     "^pa(55;7)^fg($CL_FROMHOST)^fn($FN_FROMHOST)$fromhost" \
     "^pa($((55+$WH));4)^fg($CL_PROGNAME)^fn($FN_PROGNAME)$progname" \
     "^pa(6;22)^fg($CL_MSG)^fn($FN_MSG)$msg" | $dzen -p $leveltime[$3] -x -505 -h $[ 40 + 14*($# -6) ] -y 20 -w 500 -ta l
