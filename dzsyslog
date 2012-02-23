@@ -64,6 +64,12 @@ function dzsys_kernel() {
     msgs=( ${msgs#\[*.*\]} )
 }
 
+# irssi, highlight user name
+function dzsys_irssi() {
+    setopt local_options histsubstpattern extendedglob
+    msgs=( ${msgs:s/(#b)(*:)/'^fg(#7AA65A)${match[1]}^fg(#cccccc)'/} )
+}
+
 # debug stuff
 timestamp=$1
 facility=$facilities[$2]
