@@ -18,7 +18,7 @@ pars=( "$@" )
 [[ ! -d /tmp/dzenlines ]] && mkdir /tmp/dzenlines
 
 # this is not threadsafe, but w/e
-fname=/tmp/dzenlines/y_$pars[-y]_x_${${pars[-x]}:-0}
+fname=/tmp/dzenlines/y_$pars[-y]
 [[ -e $fname ]] && l=( ${(f)"$(<$fname)"} )
 [[ -n $l ]] && (( $l[1] > $EPOCHSECONDS )) && offset=$[ $l[2] +4 ]
 echo "$(($EPOCHSECONDS+$pars[-p]))\n$(($offset+$pars[-h]))" > $fname
