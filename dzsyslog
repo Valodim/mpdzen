@@ -59,6 +59,11 @@ facilities[syslog]=S
 facilities[user]=U
 facilities[uucp]=U
 
+# strip timestamps from kernel thingie
+function dzsys_kernel() {
+    msgs=( ${msgs#\[*.*\]} )
+}
+
 # debug stuff
 timestamp=$1
 facility=$facilities[$2]
