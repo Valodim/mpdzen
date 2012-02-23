@@ -65,12 +65,18 @@ facility=$facilities[$2]
 severity=$level[$3]
 fromhost=$4
 progname=$5
-msg=$6
-
-# echo $t
+typeset -a msgs
+msgs=( $argv[6,$] )
 
 WT=$(textwidth "$FN_TIME" "$timestamp")
 WH=$(textwidth "$FN_FROMHOST" "$fromhost")
+
+msg=''
+integer off=0
+for i in $msgs; do
+    msg+="^pa(6;$[22+$off])$i"
+    off+=14
+done
 
 echo "^ib(1)" \
     "^pa($(( 500-$WT ));6)^fg($CL_TIME)^fn($FN_TIME)$timestamp"\
@@ -78,4 +84,4 @@ echo "^ib(1)" \
     "^pa(30;7)^fg($CL_FACILITY)^fn($FN_FACILITY)$facility"\
     "^pa(55;7)^fg($CL_FROMHOST)^fn($FN_FROMHOST)$fromhost" \
     "^pa($((55+$WH));4)^fg($CL_PROGNAME)^fn($FN_PROGNAME)$progname" \
-    "^pa(6;22)^fg($CL_MSG)^fn($FN_MSG)$msg" | $dzen -p $leveltime[$3] -x -505 -h 40 -y 20 -w 500 -ta l
+    "^pa(6;22)^fg($CL_MSG)^fn($FN_MSG)$msg" | $dzen -p $leveltime[$3] -x -505 -h $[ 40 + 14*($# -6) ] -y 20 -w 500 -ta l
