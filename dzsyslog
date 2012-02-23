@@ -71,6 +71,13 @@ msgs=( $argv[6,$] )
 WT=$(textwidth "$FN_TIME" "$timestamp")
 WH=$(textwidth "$FN_FROMHOST" "$fromhost")
 
+if (( $+functions[dzsys_${5}] )); then
+    dzsys_${5}
+fi
+
+# no messages left?
+[[ $#msgs == 0 ]] && return
+
 msg=''
 integer off=0
 for i in $msgs; do
