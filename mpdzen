@@ -47,7 +47,11 @@ fixw=90
 
 # any cover here? match case-insensitively and allow two errors in the name.
 setopt extended_glob
-img=( covers/(#ia3)${~ARTIST}/${~${(q)ALBUM}:gs/\//_}.xpm(N) )
+# check for art matching the song title first
+img=( covers/(#ia3)${~ARTIST}/${~${(q)SONG}:gs/\//_}.xpm(N) )
+[[ -z $img ]] && img=( ~/.cache/covers/(#ia3)${~ARTIST}/${~${SONG}:gs/\//_}.xpm(N) )
+# second attempt (most common hit), cover art for the album
+[[ -z $img ]] && img=( covers/(#ia3)${~ARTIST}/${~${(q)ALBUM}:gs/\//_}.xpm(N) )
 [[ -z $img ]] && img=( ~/.cache/covers/(#ia3)${~ARTIST}/${~${ALBUM}:gs/\//_}.xpm(N) )
 if [[ -n $img ]]; then
     img=${${img[1]}:gs/)/\\)}
