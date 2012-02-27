@@ -26,6 +26,23 @@ self=( $0(:A:h) )
 # make sure the parsing succeeded - we have no proper data otherwise
 [[ $? != 0 ]] && return 1
 
+# any cover here? match case-insensitively and allow two errors in the name.
+setopt extended_glob
+# check for art matching the song title first
+img=( covers/(#ia3)${~ARTIST}/${~${(q)SONG}:gs/\//_}.xpm(N) )
+[[ -z $img ]] && img=( ~/.cache/covers/(#ia3)${~ARTIST}/${~${SONG}:gs/\//_}.xpm(N) )
+# second attempt (most common hit), cover art for the album
+[[ -z $img ]] && img=( covers/(#ia3)${~ARTIST}/${~${(q)ALBUM}:gs/\//_}.xpm(N) )
+[[ -z $img ]] && img=( ~/.cache/covers/(#ia3)${~ARTIST}/${~${ALBUM}:gs/\//_}.xpm(N) )
+if [[ -n $img ]]; then
+    img=${${img[1]}:gs/)/\\)}
+    img="^i($img)"
+    echo $img
+else
+    echo "No cover found: /$ARTIST/${${(q)ALBUM}:gs/\//_}.xpm" >&2
+    img="^fg(#324132)^r(64x64)^pa(36;28)^fg(#000000)?"
+fi
+
 AW=$(textwidth "$FN_ARTIST" "$ARTIST")
 while [[ $AW -gt 292 ]]; do
     ARTIST=$ARTIST[1,-4]'..'
@@ -44,21 +61,6 @@ W=360
 fixw=90
 (( $AW+$fixw > $W )) && W=$[ $fixw + $AW ]
 (( $SW+$fixw > $W )) && W=$[ $fixw + $SW ]
-
-# any cover here? match case-insensitively and allow two errors in the name.
-setopt extended_glob
-# check for art matching the song title first
-img=( covers/(#ia3)${~ARTIST}/${~${(q)SONG}:gs/\//_}.xpm(N) )
-[[ -z $img ]] && img=( ~/.cache/covers/(#ia3)${~ARTIST}/${~${SONG}:gs/\//_}.xpm(N) )
-# second attempt (most common hit), cover art for the album
-[[ -z $img ]] && img=( covers/(#ia3)${~ARTIST}/${~${(q)ALBUM}:gs/\//_}.xpm(N) )
-[[ -z $img ]] && img=( ~/.cache/covers/(#ia3)${~ARTIST}/${~${ALBUM}:gs/\//_}.xpm(N) )
-if [[ -n $img ]]; then
-    img=${${img[1]}:gs/)/\\)}
-    img="^i($img)"
-else
-    img="^fg(#324132)^r(64x64)^pa(36;28)^fg(#000000)?"
-fi
 
 case $MPDSTATE in
     playing) STATE="^fg(#ffffff)^i($RESPATH/play.xbm) " ;;
