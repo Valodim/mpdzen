@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+# avahi, highlight leading +
+function dzsys_avahi() {
+    setopt local_options histsubstpattern extendedglob
+    msgs=( ${msgs:s/# +/'^fg(#22ee22)+^fg()'/} )
+}

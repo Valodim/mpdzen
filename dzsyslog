@@ -59,17 +59,6 @@ facilities[syslog]=S
 facilities[user]=U
 facilities[uucp]=U
 
-# strip timestamps from kernel thingie
-function dzsys_kernel() {
-    msgs=( ${msgs#\[*.*\]} )
-}
-
-# irssi, highlight user name
-function dzsys_irssi() {
-    setopt local_options histsubstpattern extendedglob
-    msgs=( ${msgs:s/(#b)(*:)/'^fg(#7AA65A)${match[1]}^fg(#cccccc)'/} )
-}
-
 # debug stuff
 timestamp=$1
 facility=$facilities[$2]
@@ -82,7 +71,8 @@ msgs=( $argv[6,$] )
 WT=$(textwidth "$FN_TIME" "$timestamp")
 WH=$(textwidth "$FN_FROMHOST" "$fromhost")
 
-if (( $+functions[dzsys_${5}] )); then
+if [[ -e dzsysplays/dzsys_${5} ]]; then
+    source dzsysplays/dzsys_${5}
     dzsys_${5}
 fi
 

@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+# irssi, highlight user name
+function dzsys_irssi() {
+    setopt local_options histsubstpattern extendedglob
+    msgs=( ${msgs:s/(#b)([^:]#:)/'^fg(#7AA65A)${match[1]}^fg(#cccccc)'/} )
+}

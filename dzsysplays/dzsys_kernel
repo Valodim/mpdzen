@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+# kernel, strip timestamps
+function dzsys_kernel() {
+    setopt local_options histsubstpattern extendedglob
+    msgs=( ${msgs#\[*.*\]} )
+}
