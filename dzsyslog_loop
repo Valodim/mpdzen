@@ -2,10 +2,10 @@
 
 typeset -a t
 typeset -a v
-while read s; do
+while read -r s; do
     t=( ${(s:	:)s} )
     # aggregate more subsequent messages
-    while read -t 0.3 u; do
+    while read -r -t 0.3 u; do
         v=( ${(s:	:)u} )
         if [[ $v[2,5] == $t[2,5] ]]; then
             t+=$v[6,$]
@@ -16,7 +16,7 @@ while read s; do
         fi
     done
 
-    ./dzsyslog $t[1] $t[2] $t[3] $t[4] $t[5] $t[6,$] &!
+    dzsyslog $t[1] $t[2] $t[3] $t[4] $t[5] $t[6,$] &!
 
     # leftovers?
     if [[ -n $v ]]; then
