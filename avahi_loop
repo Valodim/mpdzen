@@ -1,0 +1,26 @@
+#!/bin/zsh
+
+typeset -a serv_blacklist
+serv_blacklist=( _pulse-source._tcp _pulse-sink._tcp )
+
+setopt extendedglob
+while true; do
+    avahi-browse -p -f -a -k -l | while read -r s; do
+        s=( ${(s:;:)${s//\\(#b)(???)/${(#)match[1]}}} )
+        # 1 + or -
+        # 2 iface
+        # 3 IPv4 / IPv6
+        # 4 hostname
+        # 5 service
+        # 6 domain
+
+        # only care about ipv4 (at this point)
+        [[ $s[3] == 'IPv4' ]] || continue
+
+        # skip blacklisted services
+        (( $serv_blacklist[(i)$s[5]] > $#serv_blacklist )) || continue
+
+        logger -p daemon.notice -t avahi <<< "$s[1] $s[4] $s[5]"
+        # print $s
+    done
+done
