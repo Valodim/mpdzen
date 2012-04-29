@@ -1,7 +1,13 @@
 #!/bin/zsh
 
+# this expects data like this, using trigger.pl
+# /trigger add -publics -pattern 'somepattern' -command 'exec - echo $\N": "$\M | logger -p local1.notice -t irssi'
+
 # irssi, highlight user name
 function dzsys_irssi() {
     setopt local_options histsubstpattern extendedglob
-    msgs=( ${msgs:s/(#b)([^:]#:)/'^fg(#7AA65A)${match[1]}^fg(#cccccc)'/} )
+    local -a tmp
+    tmp=( ${msgs:s/(#b)([^:]#:)/'^fg(#7AA65A)${match[1]}^fg(#cccccc)'/} )
+    msgs=( )
+    for i in {1..$#tmp}; msgs+=( ${(f)"$(fmt -w 110 - <<< $tmp[i])"} )
 }
