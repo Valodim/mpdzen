@@ -3,6 +3,7 @@
 zmodload zsh/datetime
 
 integer offset=0
+integer maxheight=800
 
 # parse those parameters into an associate array
 typeset -A pars
@@ -29,6 +30,8 @@ if (( $pars[-y] > 0 )); then
 else
     pars[-y]=$[ ${pars[-y]} - $offset ]
 fi
+
+(( $pars[-y] > $maxheight )) && return 2
 
 # forward modified parameters to dzen2
 dzen2 ${(kv)pars}
