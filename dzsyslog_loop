@@ -2,25 +2,37 @@
 
 typeset -a t
 typeset -a v
-while read -r s; do
-    t=( ${(s:	:)s} )
-    # aggregate more subsequent messages
-    while read -r -t 0.3 u; do
-        v=( ${(s:	:)u} )
-        if [[ $v[2,5] == $t[2,5] ]]; then
-            t+=$v[6,$]
+
+# default param
+[[ $# < 2 ]] && pipe=/var/run/dzenpipe
+
+# flush the pipe once, we'll get a useless flood otherwise
+dd if=$pipe of=/dev/null iflag=nonblock 2>/dev/null >/dev/null
+
+# do this for always
+while true; do
+    [[ -p $pipe && -r $pipe ]] || { echo "Invalid or unreadable pipe: $pipe" >&2 && return 2 }
+
+    while read -r s; do
+        t=( ${(s:	:)s} )
+        # aggregate more subsequent messages
+        while read -r -t 0.3 u; do
+            v=( ${(s:	:)u} )
+            if [[ $v[2,5] == $t[2,5] ]]; then
+                t+=$v[6,$]
+                v=()
+            else
+                # v is saved here and displayed later, in-order
+                break;
+            fi
+        done
+
+        dzsyslog $t[1] $t[2] $t[3] $t[4] $t[5] $t[6,$] &!
+
+        # leftovers?
+        if [[ -n $v ]]; then
+            dzsyslog $v[1] $v[2] $v[3] $v[4] $v[5] $v[6,$] &!
             v=()
-        else
-            # v is saved here and displayed later, in-order
-            break;
         fi
-    done
-
-    dzsyslog $t[1] $t[2] $t[3] $t[4] $t[5] $t[6,$] &!
-
-    # leftovers?
-    if [[ -n $v ]]; then
-        dzsyslog $v[1] $v[2] $v[3] $v[4] $v[5] $v[6,$] &!
-        v=()
-    fi
-done;
+    done < $pipe;
+done
